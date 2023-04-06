@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataAccess.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">myshuttle</a> &gt; <a href="index.source.html" class="el_package">com.microsoft.example</a> &gt; <span class="el_source">DataAccess.java</span></div><h1>DataAccess.java</h1><pre class="source lang-java linenums">package com.microsoft.example;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.sql.*;
+import javax.sql.*;
+import com.microsoft.example.models.*;
+
+/**
+ * A set of static methods designed to make it easier to access the
+ * data living in the associated MySQL database. This is a basically
+ * designed to be a simpler approach than Hibernate or JPA, by using
+ * straight JDBC and hiding it.
+ */
+ 
+ /**
+ Comment added by Sachin
+ **/
+ 
+<span class="nc" id="L21">public class DataAccess</span>
+{
+	// Some database-specific details we'll need
+	private static final String DB_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+	private static final String DB_URL = &quot;jdbc:mysql://olayaonateserver.mysql.database.azure.com:3306/alm&quot;;
+	private static final String DB_USER = &quot;mysqldbuser@olayaonateserver&quot;;
+	private static final String DB_PASS = &quot;P2ssw0rd@123&quot;;
+	
+	private static Connection theConnection;
+	static {
+		try {
+			// Bootstrap driver into JVM
+<span class="nc" id="L33">			Class.forName(DB_DRIVER);</span>
+
+<span class="nc" id="L35">			String conStr = System.getenv(&quot;MYSQLCONNSTR_MyShuttleDb&quot;);</span>
+<span class="nc bnc" id="L36" title="All 4 branches missed.">			if (conStr == null || conStr.trim().length() == 0) {</span>
+<span class="nc" id="L37">				theConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);</span>
+			} else {
+<span class="nc" id="L39">				theConnection = DriverManager.getConnection(conStr);</span>
+			}
+		}
+<span class="nc" id="L42">		catch (Exception ex) {</span>
+			// Eh.... just give up
+<span class="nc" id="L44">            ex.printStackTrace();</span>
+<span class="nc" id="L45">			throw new ExceptionInInitializerError(ex.toString());</span>
+<span class="nc" id="L46">		}</span>
+	}
+
+	private static PreparedStatement LOGIN;
+	private static PreparedStatement FARES;
+	private static PreparedStatement GETTOTAL;
+	static {
+		try {
+<span class="nc" id="L54">			LOGIN = theConnection.prepareStatement(&quot;SELECT * FROM employees WHERE username=? AND password=?&quot;);</span>
+<span class="nc" id="L55">			FARES = theConnection.prepareStatement(&quot;SELECT * FROM fares WHERE emp_id=?&quot;);</span>
+<span class="nc" id="L56">			GETTOTAL = theConnection.prepareStatement(&quot;SELECT SUM(fare_charge) as totalfare, sum(driver_fee) as totaldriverfee FROM fares WHERE emp_id=?&quot;);</span>
+		}
+<span class="nc" id="L58">		catch (SQLException sqlEx) {</span>
+			// Eh.... just give up
+<span class="nc" id="L60">			sqlEx.printStackTrace();</span>
+<span class="nc" id="L61">			System.exit(-1);</span>
+<span class="nc" id="L62">		}</span>
+<span class="nc" id="L63">	}</span>
+
+	/**
+	 * Simple check to see if login succeeds, without returning the Employee model
+	 */
+	public static boolean loginSuccessful(String employeeEmail, String employeePassword) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		return (login(employeeEmail, employeePassword) != null);</span>
+	}
+	
+	/**
+	 * Retrieve an employee by username/email and password
+	 */
+	public static Employee login(String employeeEmail, String employeePassword) {
+		try {
+<span class="nc" id="L77">			LOGIN.clearParameters();</span>
+
+<span class="nc" id="L79">			LOGIN.setString(1, employeeEmail);</span>
+<span class="nc" id="L80">			LOGIN.setString(2, employeePassword);</span>
+			
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			try (ResultSet rs = LOGIN.executeQuery()) {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">				if (rs.next()) {</span>
+<span class="nc" id="L84">					Employee emp = new Employee(rs.getInt(&quot;id&quot;), rs.getString(&quot;username&quot;), rs.getString(&quot;password&quot;));</span>
+<span class="nc" id="L85">					return emp;</span>
+				}
+				else
+<span class="nc" id="L88">					return null;</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">			}</span>
+		}
+<span class="nc" id="L91">		catch (SQLException sqlEx) {</span>
+<span class="nc" id="L92">			sqlEx.printStackTrace();</span>
+<span class="nc" id="L93">			return null;</span>
+		}
+	}
+
+	/**
+	 * Return all the fares for a given Employee's ID #
+	 */	
+	public static List&lt;Fare&gt; employeeFares(int empID) {
+		try {
+<span class="nc" id="L102">			FARES.clearParameters();</span>
+	
+<span class="nc" id="L104">			FARES.setInt(1, empID);</span>
+			
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			try (ResultSet rs = FARES.executeQuery()) {</span>
+<span class="nc" id="L107">                List&lt;Fare&gt; results = new ArrayList&lt;Fare&gt;(20);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                while (rs.next()) {</span>
+<span class="nc" id="L109">                    results.add(new Fare(rs.getInt(&quot;id&quot;), rs.getInt(&quot;emp_id&quot;),</span>
+<span class="nc" id="L110">                        rs.getString(&quot;pickup&quot;), rs.getString(&quot;dropoff&quot;),</span>
+<span class="nc" id="L111">                        rs.getTimestamp(&quot;start&quot;), rs.getTimestamp(&quot;end&quot;),</span>
+<span class="nc" id="L112">                        rs.getInt(&quot;fare_charge&quot;), rs.getInt(&quot;driver_fee&quot;),</span>
+<span class="nc" id="L113">                        rs.getInt(&quot;passenger_rating&quot;), rs.getInt(&quot;driver_rating&quot;)</span>
+                    ));
+                }
+<span class="nc" id="L116">                return results;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            }</span>
+		}
+<span class="nc" id="L119">		catch (SQLException sqlEx) {</span>
+<span class="nc" id="L120">			sqlEx.printStackTrace();</span>
+<span class="nc" id="L121">			return Collections.emptyList();</span>
+		}
+	}
+	
+	/**
+	 * Return all the fares for a given Employee object
+	 */
+	public static List&lt;Fare&gt; employeeFares(Employee emp) {
+<span class="nc" id="L129">		return employeeFares(emp.getID());</span>
+	}
+	
+	public static float getFareTotal(int empID){
+		try {
+<span class="nc" id="L134">		GETTOTAL.clearParameters();</span>
+		
+<span class="nc" id="L136">		GETTOTAL.setInt(1, empID);</span>
+		
+<span class="nc" id="L138">		ResultSet rs = GETTOTAL.executeQuery();</span>
+		
+<span class="nc bnc" id="L140" title="All 2 branches missed.">		if (rs.next()){		 return (rs.getInt(&quot;totalfare&quot;)/100.0f);}</span>
+<span class="nc" id="L141">		else return -1;</span>
+<span class="nc" id="L142">            }catch (SQLException sqlEx) {</span>
+<span class="nc" id="L143">    			sqlEx.printStackTrace();</span>
+<span class="nc" id="L144">    			return -1;</span>
+    		}
+            
+	}
+	public static float getTotalDriverFee(int empID){
+		try {
+<span class="nc" id="L150">		GETTOTAL.clearParameters();</span>
+		
+<span class="nc" id="L152">		GETTOTAL.setInt(1, empID);</span>
+		
+<span class="nc" id="L154">		ResultSet rs = GETTOTAL.executeQuery();</span>
+		
+<span class="nc bnc" id="L156" title="All 2 branches missed.">		if (rs.next()){		 return (rs.getInt(&quot;totaldriverfee&quot;)/100.0f);}</span>
+<span class="nc" id="L157">		else return -1;</span>
+<span class="nc" id="L158">            }catch (SQLException sqlEx) {</span>
+<span class="nc" id="L159">    			sqlEx.printStackTrace();</span>
+<span class="nc" id="L160">    			return -1;</span>
+    		}
+            
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

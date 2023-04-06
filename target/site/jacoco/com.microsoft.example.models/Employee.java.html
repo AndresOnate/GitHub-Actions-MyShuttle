@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Employee.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">myshuttle</a> &gt; <a href="index.source.html" class="el_package">com.microsoft.example.models</a> &gt; <span class="el_source">Employee.java</span></div><h1>Employee.java</h1><pre class="source lang-java linenums">package com.microsoft.example.models;
+
+import java.util.List;
+
+/**
+ * Simple model basically mimicking what's in the database
+ * as part of the employees table.
+ */
+public class Employee
+    implements java.io.Serializable
+{
+<span class="nc" id="L12">	public Employee() { }</span>
+<span class="nc" id="L13">	public Employee(int id, String username, String password) {</span>
+<span class="nc" id="L14">		this.id = id;</span>
+<span class="nc" id="L15">		this.username = username;</span>
+<span class="nc" id="L16">		this.password = password;</span>
+<span class="nc" id="L17">	}</span>
+	
+<span class="nc" id="L19">	public int getID() { return id; }</span>
+	
+<span class="nc" id="L21">	public String getUsername() { return username; }</span>
+<span class="nc" id="L22">	public void setUsername(String value) { username = value; }</span>
+	
+<span class="nc" id="L24">	public String getPassword() { return password; }</span>
+<span class="nc" id="L25">	public void setPassword(String value) { password = value; }</span>
+  
+ 
+  public int getTotalFees(List&lt;Fare&gt; fares) {
+<span class="nc" id="L29">    int total = 0;</span>
+    
+<span class="nc bnc" id="L31" title="All 2 branches missed.">    for (Fare f : fares) {</span>
+<span class="nc" id="L32">      total += f.getDriverFee();</span>
+<span class="nc" id="L33">    }</span>
+    
+<span class="nc" id="L35">    return total;</span>
+  }
+  
+  
+  public float getTotalFeesInDollars(List&lt;Fare&gt; fares) {
+<span class="nc" id="L40">    return getTotalFees(fares) / 100.0f;</span>
+  }
+	
+
+    public int getTotalFare(List&lt;Fare&gt; fares, int flag) {
+<span class="nc" id="L45">    int total = 0;</span>
+   /*
+    if (flag == 0)
+    {
+        for (Fare f : fares) {
+      total += f.getFare();
+        }     
+    } else
+    */
+<span class="nc bnc" id="L54" title="All 2 branches missed.">       for (Fare f : fares) {</span>
+<span class="nc" id="L55">      total += f.getDriverFee();</span>
+<span class="nc" id="L56">    }</span>
+       
+ 
+    
+<span class="nc" id="L60">    return total;</span>
+  }
+  
+  public float getTotalFareInDollars(List&lt;Fare&gt; fares) {
+ //   return getTotalFare(fares) / 100.0f;
+<span class="nc" id="L65">   return getTotalFees(fares) / 100.0f;</span>
+  }
+	  
+    
+	@Override
+	public String toString() {
+<span class="nc" id="L71">		return &quot;[Employee &quot; + </span>
+			&quot;id:&quot; + id + &quot; &quot; +
+			&quot;username:&quot; + username + &quot; &quot; +
+			&quot;password:&quot; + password + &quot; &quot; +
+		&quot;]&quot;;
+	}
+	
+	private int id;
+	private String username;
+	private String password;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

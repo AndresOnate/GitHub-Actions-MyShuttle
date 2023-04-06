@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+myshuttle,com.microsoft.exampledep,Route,26,0,0,0,12,0,6,0,6,0
+myshuttle,com.microsoft.exampledep,DistanceCalculator,56,0,8,0,12,0,7,0,3,0
+myshuttle,com.microsoft.example.servlet,LoginServlet,98,0,4,0,23,0,4,0,2,0
+myshuttle,com.microsoft.example.servlet,Servlet,41,0,2,0,13,0,3,0,2,0
+myshuttle,com.microsoft.example,DataAccess,258,0,24,0,63,0,20,0,8,0
+myshuttle,com.microsoft.example.models,Distance,3,0,0,0,2,0,1,0,1,0
+myshuttle,com.microsoft.example.models,Employee,108,0,4,0,24,0,14,0,12,0
+myshuttle,com.microsoft.example.models,Fare,171,0,0,0,35,0,24,0,24,0

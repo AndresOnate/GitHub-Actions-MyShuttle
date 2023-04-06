@@ -1,0 +1,80 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.microsoft.example:myshuttle:war:0.0.1
+[WARNING] 'build.plugins.plugin.version' for org.apache.maven.plugins:maven-surefire-plugin is missing. @ line 12, column 15
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] ------------------< com.microsoft.example:myshuttle >-------------------
+[INFO] Building myshuttle 0.0.1
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ myshuttle ---
+[INFO] Deleting C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\target
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.9:prepare-agent (default) @ myshuttle ---
+[INFO] argLine set to "-javaagent:C:\\Users\\admin\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.7.9\\org.jacoco.agent-0.7.9-runtime.jar=destfile=C:\\Users\\admin\\Downloads\\cvds\\GitHub Actions\\GitHub-Actions-MyShuttle\\target\\jacoco.exec"
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ myshuttle ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:compile (default-compile) @ myshuttle ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 8 source files to C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ myshuttle ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:testCompile (default-testCompile) @ myshuttle ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 3 source files to C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ myshuttle ---
+[INFO] Surefire report directory: C:\Users\admin\Downloads\cvds\GitHub Actions\GitHub-Actions-MyShuttle\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Exception in thread "main" java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndStartAgent(InstrumentationImpl.java:513)
+	at java.instrument/sun.instrument.InstrumentationImpl.loadClassAndCallPremain(InstrumentationImpl.java:525)
+Caused by: java.lang.RuntimeException: Class java/util/UUID could not be instrumented.
+	at org.jacoco.agent.rt.internal_8ff85ea.core.runtime.ModifiedSystemClassRuntime.createFor(ModifiedSystemClassRuntime.java:140)
+	at org.jacoco.agent.rt.internal_8ff85ea.core.runtime.ModifiedSystemClassRuntime.createFor(ModifiedSystemClassRuntime.java:101)
+	at org.jacoco.agent.rt.internal_8ff85ea.PreMain.createRuntime(PreMain.java:55)
+	at org.jacoco.agent.rt.internal_8ff85ea.PreMain.premain(PreMain.java:47)
+	... 6 more
+Caused by: java.lang.NoSuchFieldException: $jacocoAccess
+	at java.base/java.lang.Class.getField(Class.java:1999)
+	at org.jacoco.agent.rt.internal_8ff85ea.core.runtime.ModifiedSystemClassRuntime.createFor(ModifiedSystemClassRuntime.java:138)
+	... 9 more
+FATAL ERROR in native method: processing of -javaagent failed
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.180 s
+[INFO] Finished at: 2023-04-06T13:59:03-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test) on project myshuttle: Execution default-test of goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test failed: The forked VM terminated without saying properly goodbye. VM crash or System.exit called ? -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException
